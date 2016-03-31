@@ -80,7 +80,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell * cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-    return cell.frame.size.height+10;
+    return cell.frame.size.height+15;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
