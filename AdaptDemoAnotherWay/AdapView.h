@@ -21,12 +21,12 @@
  */
 @property (nonatomic,strong)UILabel * contentLb;
 @property (nonatomic,copy)NSString * content;
+
 /**
- *  图片
+ *  图片数组
  */
-@property (nonatomic,strong)UIImageView * picImgVC;
-@property (nonatomic,copy)NSString * imageName;
+@property (nonatomic,copy)NSArray * imgArray;
 
-
+- (instancetype)initWithFrame:(CGRect)frame andImgArray:(NSArray *)imgArray;
 
 @end

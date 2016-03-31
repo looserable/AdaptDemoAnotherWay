@@ -36,7 +36,7 @@
 }
 
 - (void)createTableview{
-    tableview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    tableview = [[UITableView alloc]initWithFrame:CGRectMake(0, 20,SCREEN_WIDTH, SCREEN_HEIGHT - 20) style:UITableViewStylePlain];
     tableview.delegate = self;
     tableview.dataSource = self;
     [self.view addSubview:tableview];
@@ -44,8 +44,8 @@
 
 - (void)loadData{
     _titleArray = @[@"zheshyigebiaoti",@"zheshi yige biaoti",@"zheshi yige biaoti"];
-     _contentArray = @[@"zheshyigebiaotijfldslfjlsajdfljsdlfjdsljflsjdljflsdjlfjsldjflsdjlfjlsdjfls",@"zheshi yige biaotifsdlfjlsdjfldsjfljsldjflsdjfljsdljfdsjljfljsdljflsdjfljsldjflkjsdlfjlsdjfkljsdl",@"zheshi yige biaotijlkjfldsjafljasldfjlsdjflkjdslkjflsdjfljsdljflsdjfljsdlkjflkjsdlfjkldsjlkfjlksdjlfjlsdfkjsdlkfjl"];
-     _imageNameArray = @[@"1.png",@"2.png",@"3.png"];
+     _contentArray = @[@"zheshyigebiaotijfldslfjlsajdfljsdlfjdsljflsjdljflsdjlfjsldjflsdjlfjlsdjflsjfksdkfjkdsjkfjksdjkfjkdsjkfjksdjkfjksdjkfjdkjsfakdsjkfjkjsdkjkfjkdsjkfjkdsjkjfkdskjf",@"zheshi yige biaotifsdlfjlsdjfldsjfljsldjflsdjfljsdljfdsjljfljsdljflsdjfljsldjflkjsdlfjlsdjfkljsdlfdsjhfjdshjfhjdshfjhdjshfjhafjhdjshfjahdfjdhjfhjdshjfhjdshjfhjdshjfhjdsfhajahjdshfjhds",@"zheshi yige biaotijlkjfldsjafljasldfjlsdjflkjdslkjflsdjfljsdljflsdjfljsdlkjflkjsdlfjkldsjlkfjlksdjlfjlsdfkjsdlkfjl"];
+     _imageNameArray = @[@[@"2.png",@"2.png"],@[@"2.png",@"2.png",@"2.png",@"2.png",@"2.png",@"2.png",@"2.png",@"2.png"],@[@"2.png"]];
     
 }
 
@@ -59,18 +59,18 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    
+//    如果cell上面原来子视图，那么移除
     for (AdapView * adaptV in cell.contentView.subviews) {
         if ([adaptV isKindOfClass:[AdapView class]]) {
             [adaptV removeFromSuperview];
             break;
         }
     }
-    
-    AdapView * adap = [[AdapView alloc]init];
+//    创建自适应的视图，通过赋值触发自动布局
+    AdapView * adap = [[AdapView alloc]initWithFrame:CGRectZero andImgArray:_imageNameArray[indexPath.row]];
     adap.title = _titleArray[indexPath.row];
     adap.content = _contentArray[indexPath.row];
-    adap.imageName = _imageNameArray[indexPath.row];
+    adap.imgArray = _imageNameArray[indexPath.row];
     
     cell.frame = adap.frame;
     
