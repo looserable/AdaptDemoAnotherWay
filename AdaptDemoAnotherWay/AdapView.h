@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BigImgDelegate <NSObject>
+
+- (void)clickFroMoreImageView:(UIImageView *)imageView andImage:(UIImage *)image;
+
+@end
+
 @interface AdapView : UIView
 
 /**
@@ -26,6 +32,8 @@
  *  图片数组
  */
 @property (nonatomic,copy)NSArray * imgArray;
+
+@property (nonatomic,assign)id <BigImgDelegate> delegate;
 
 - (instancetype)initWithFrame:(CGRect)frame andImgArray:(NSArray *)imgArray;
 

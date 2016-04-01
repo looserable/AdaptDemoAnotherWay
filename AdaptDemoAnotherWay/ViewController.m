@@ -12,13 +12,16 @@
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
-@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface ViewController ()<UITableViewDelegate,UITableViewDataSource,BigImgDelegate>
 {
     UITableView * tableview;
     NSArray * _titleArray;
     NSArray * _contentArray;
     NSArray * _imageNameArray;
+    CGRect oldFrame;
+    UIImage * oldImage;
 }
+
 
 @end
 
@@ -58,6 +61,7 @@
     UITableViewCell * cell = [tableview dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 //    如果cell上面原来子视图，那么移除
     for (AdapView * adaptV in cell.contentView.subviews) {
@@ -71,16 +75,62 @@
     adap.title = _titleArray[indexPath.row];
     adap.content = _contentArray[indexPath.row];
     adap.imgArray = _imageNameArray[indexPath.row];
-    
+    adap.delegate = self;
+    adap.userInteractionEnabled = YES;
     cell.frame = adap.frame;
     
     [cell.contentView addSubview:adap];
     return cell;
 }
 
+- (void)click:(UIButton *)sender{
+    NSLog(@"hfhasfs");
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell * cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
     return cell.frame.size.height+15;
+}
+
+-(void)clickFroMoreImageView:(UIImageView *)imageView andImage:(UIImage *)image{
+    
+    UIView * backGroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    backGroundView.alpha = 0;
+    
+    UIWindow * window = [UIApplication sharedApplication].keyWindow;
+    [window addSubview:backGroundView];
+    
+    oldFrame = [imageView convertRect:imageView.bounds toView:window];
+    UIImageView * newImagView = [[UIImageView alloc]initWithFrame:oldFrame];
+    newImagView.image = image;
+    
+    newImagView.tag = 1;
+    [backGroundView addSubview:newImagView];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        newImagView.frame = CGRectMake(0, SCREEN_HEIGHT/2.0 - 100, SCREEN_WIDTH, 200);
+        backGroundView.alpha = 1;
+    }];
+    
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
+    [backGroundView addGestureRecognizer:tap];
+    
+}
+
+- (void)hideImage:(UITapGestureRecognizer *)tap{
+    UIView * backGroundView = tap.view;
+    UIImageView * imageView = (UIImageView *)[backGroundView viewWithTag:1];
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame = oldFrame;
+        imageView.image = oldImage;
+        backGroundView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [backGroundView removeFromSuperview];
+    }];
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

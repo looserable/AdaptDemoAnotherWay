@@ -48,6 +48,14 @@
             }
             UIImageView * imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
             imageView.tag = IMG_TAG + i;
+            imageView.userInteractionEnabled = YES;
+            
+            UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.backgroundColor = [UIColor clearColor];
+            [button addTarget:self action:@selector(tapClick:) forControlEvents:UIControlEventTouchUpInside];
+            button.tag = IMG_TAG + 10 + i;
+            
+            [self addSubview:button];
             [self addSubview:imageView];
         }
         
@@ -64,6 +72,16 @@
     [self removeObserver:self forKeyPath:@"content"];
     [self removeObserver:self forKeyPath:@"imgArray"];
     
+}
+
+- (void)tapClick:(UIButton *)sender{
+    NSInteger index = sender.tag - IMG_TAG - 10;
+    UIImageView * imageView = (UIImageView *)[self viewWithTag:sender.tag];
+    UIImage * image = [UIImage imageNamed:_imgArray[index]];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(clickFroMoreImageView:andImage:)]) {
+        [_delegate clickFroMoreImageView:imageView andImage:image];
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
@@ -90,12 +108,18 @@
             imageView.frame = CGRectMake(10, contentY + 10, SCREEN_WIDTH - 20, ONE_PIC_NEED_HEIGHT);
             imageView.image = [UIImage imageNamed:_imgArray[0]];
             
+            UIButton * button = (UIButton *)[self viewWithTag:IMG_TAG + 10];
+            button.frame = CGRectMake(10, contentY + 10, SCREEN_WIDTH - 20, ONE_PIC_NEED_HEIGHT);
+            
         }else if (_imgArray.count == 2){
 //        如果有两张图片
             for (NSInteger i = 0; i < 2; i ++) {
                 UIImageView * imageView = (UIImageView *)[self viewWithTag:IMG_TAG + i];
                 imageView.frame = CGRectMake(10 + i * ((SCREEN_WIDTH - 20)/2.0), contentY + 10, (SCREEN_WIDTH - 20 - 10)/2.0, TWO_PIC_NEED_HEIGHT);
                 imageView.image = [UIImage imageNamed:_imgArray[i]];
+                
+                UIButton * button = (UIButton *)[self viewWithTag:IMG_TAG + 10 + i];
+                button.frame = CGRectMake(10 + i * ((SCREEN_WIDTH - 20)/2.0), contentY + 10, (SCREEN_WIDTH - 20 - 10)/2.0, TWO_PIC_NEED_HEIGHT);
             }
             
         }else if (_imgArray.count >= 3 && _imgArray.count <= 9){
@@ -105,12 +129,17 @@
                 UIImageView * imgVC = (UIImageView *)[self viewWithTag:IMG_TAG + i];
                 imgVC.image = [UIImage imageNamed:imageName];
                 imgVC.frame = CGRectMake(10 + (i%3) *(SCREEN_WIDTH - 20)/3.0, contentY + 10 + (THREE_PIC_OR_MORE_NEED_PICHEIGHT + 5) * (i/3), (SCREEN_WIDTH - 20 - 15)/3.0, THREE_PIC_OR_MORE_NEED_PICHEIGHT);
+                
+                UIButton * button = (UIButton *)[self viewWithTag:IMG_TAG + 10 + i];
+                button.frame = CGRectMake(10 + (i%3) *(SCREEN_WIDTH - 20)/3.0, contentY + 10 + (THREE_PIC_OR_MORE_NEED_PICHEIGHT + 5) * (i/3), (SCREEN_WIDTH - 20 - 15)/3.0, THREE_PIC_OR_MORE_NEED_PICHEIGHT);
             }
         }
     }
-    
+//    标题Label的高度
     CGFloat titleHeight = _titleLb.frame.size.height;
+//    内容Label的高度
     CGFloat contentHeight = _contentLb.frame.size.height;
+//    图片模块儿的整个高度初始值为0
     CGFloat picHeight = 0.0;
     
     if (_imgArray.count == 1) {
@@ -125,5 +154,8 @@
     selfFrame.size.height = titleHeight + contentHeight + picHeight + 20;
     self.frame = selfFrame;
 }
+
+
+
 
 @end
