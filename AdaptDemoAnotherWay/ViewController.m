@@ -43,6 +43,8 @@
     tableview.delegate = self;
     tableview.dataSource = self;
     [self.view addSubview:tableview];
+    
+    tableview.tableFooterView = [UIView new];
 }
 
 - (void)loadData{
@@ -70,8 +72,8 @@
             break;
         }
     }
-//    创建自适应的视图，通过赋值触发自动布局
-    AdapView * adap = [[AdapView alloc]initWithFrame:CGRectZero andImgArray:_imageNameArray[indexPath.row]];
+//    创建自适应的视图，通过赋值触发自动布局，这里初始化的时候一定要给出宽度，不然会造成点击无响应的问题。
+    AdapView * adap = [[AdapView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0) andImgArray:_imageNameArray[indexPath.row]];
     adap.title = _titleArray[indexPath.row];
     adap.content = _contentArray[indexPath.row];
     adap.imgArray = _imageNameArray[indexPath.row];
@@ -95,6 +97,7 @@
 -(void)clickFroMoreImageView:(UIImageView *)imageView andImage:(UIImage *)image{
     
     UIView * backGroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    backGroundView.backgroundColor = [UIColor blackColor];
     backGroundView.alpha = 0;
     
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
