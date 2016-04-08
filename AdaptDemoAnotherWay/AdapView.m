@@ -50,18 +50,11 @@
             imageView.tag = IMG_TAG + i;
             imageView.userInteractionEnabled = YES;
             
-//            UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-//            button.backgroundColor = [UIColor clearColor];
-//            [button addTarget:self action:@selector(tapClick:) forControlEvents:UIControlEventTouchUpInside];
-//            button.tag = IMG_TAG + 10 + i;
-            
             [self addSubview:imageView];
-//            [self addSubview:button];
             
             UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
             [imageView addGestureRecognizer:tap];
             
-
         }
         [self addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
         [self addObserver:self forKeyPath:@"content" options:NSKeyValueObservingOptionNew context:nil];
@@ -118,21 +111,13 @@
             imageView.frame = CGRectMake(10, contentY + 10, SCREEN_WIDTH - 20, ONE_PIC_NEED_HEIGHT);
             imageView.image = [UIImage imageNamed:_imgArray[0]];
             
-            UIButton * button = (UIButton *)[self viewWithTag:IMG_TAG + 10];
-            button.frame = CGRectMake(10, contentY + 10, SCREEN_WIDTH - 20, ONE_PIC_NEED_HEIGHT);
-            
         }else if (_imgArray.count == 2){
 //        如果有两张图片
             for (NSInteger i = 0; i < 2; i ++) {
                 
-                UIButton * button = (UIButton *)[self viewWithTag:IMG_TAG + 10 + i];
-                button.frame = CGRectMake(10 + i * ((SCREEN_WIDTH - 20)/2.0), contentY + 10, (SCREEN_WIDTH - 20 - 10)/2.0, TWO_PIC_NEED_HEIGHT);
-                
                 UIImageView * imageView = (UIImageView *)[self viewWithTag:IMG_TAG + i];
                 imageView.frame = CGRectMake(10 + i * ((SCREEN_WIDTH - 20)/2.0), contentY + 10, (SCREEN_WIDTH - 20 - 10)/2.0, TWO_PIC_NEED_HEIGHT);
                 imageView.image = [UIImage imageNamed:_imgArray[i]];
-                
-                
                 
             }
             
@@ -143,9 +128,6 @@
                 UIImageView * imgVC = (UIImageView *)[self viewWithTag:IMG_TAG + i];
                 imgVC.image = [UIImage imageNamed:imageName];
                 imgVC.frame = CGRectMake(10 + (i%3) *(SCREEN_WIDTH - 20)/3.0, contentY + 10 + (THREE_PIC_OR_MORE_NEED_PICHEIGHT + 5) * (i/3), (SCREEN_WIDTH - 20 - 15)/3.0, THREE_PIC_OR_MORE_NEED_PICHEIGHT);
-                
-                UIButton * button = (UIButton *)[self viewWithTag:IMG_TAG + 10 + i];
-                button.frame = CGRectMake(10 + (i%3) *(SCREEN_WIDTH - 20)/3.0, contentY + 10 + (THREE_PIC_OR_MORE_NEED_PICHEIGHT + 5) * (i/3), (SCREEN_WIDTH - 20 - 15)/3.0, THREE_PIC_OR_MORE_NEED_PICHEIGHT);
             }
         }
     }
