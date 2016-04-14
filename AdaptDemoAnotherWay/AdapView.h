@@ -10,7 +10,7 @@
 
 @protocol BigImgDelegate <NSObject>
 
-- (void)clickFroMoreImageView:(UIImageView *)imageView andImage:(UIImage *)image;
+- (void)clickForImageView:(UIImageView *)imageView andBigerImage:(UIImage *)image;
 
 @end
 

@@ -82,12 +82,15 @@
     NSLog(@"进来了");
     UIImage * image = [UIImage imageNamed:_imgArray[index]];
     
-    if (_delegate && [_delegate respondsToSelector:@selector(clickFroMoreImageView:andImage:)]) {
-        [_delegate clickFroMoreImageView:imageView andImage:image];
+    if (_delegate && [_delegate respondsToSelector:@selector(clickForImageView:andBigerImage:)]) {
+        [_delegate clickForImageView:imageView andBigerImage:image];
     }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
+    
+//    每一个模块儿的坐标起点
+    CGFloat Mudel_Y = 0.0;
     
 //    根据属性的值的变化来调整视图上的控件的位置
     if ([keyPath isEqualToString:@"title"]) {//标题
@@ -103,12 +106,12 @@
         
     }else{//图片
 //        图片模块儿最开始的坐标从这里开始
-        CGFloat contentY = _contentLb.frame.origin.y + _contentLb.frame.size.height + 10;
+        Mudel_Y = _contentLb.frame.origin.y + _contentLb.frame.size.height + 10;
         
         if (_imgArray.count == 1) {
 //        如果只有一张图片的话
             UIImageView * imageView = (UIImageView *)[self viewWithTag:IMG_TAG];
-            imageView.frame = CGRectMake(10, contentY + 10, SCREEN_WIDTH - 20, ONE_PIC_NEED_HEIGHT);
+            imageView.frame = CGRectMake(10, Mudel_Y + 10, SCREEN_WIDTH - 20, ONE_PIC_NEED_HEIGHT);
             imageView.image = [UIImage imageNamed:_imgArray[0]];
             
         }else if (_imgArray.count == 2){
@@ -116,7 +119,7 @@
             for (NSInteger i = 0; i < 2; i ++) {
                 
                 UIImageView * imageView = (UIImageView *)[self viewWithTag:IMG_TAG + i];
-                imageView.frame = CGRectMake(10 + i * ((SCREEN_WIDTH - 20)/2.0), contentY + 10, (SCREEN_WIDTH - 20 - 10)/2.0, TWO_PIC_NEED_HEIGHT);
+                imageView.frame = CGRectMake(10 + i * ((SCREEN_WIDTH - 20)/2.0), Mudel_Y + 10, (SCREEN_WIDTH - 20 - 10)/2.0, TWO_PIC_NEED_HEIGHT);
                 imageView.image = [UIImage imageNamed:_imgArray[i]];
                 
             }
@@ -127,7 +130,7 @@
                 NSString * imageName = _imgArray[i];
                 UIImageView * imgVC = (UIImageView *)[self viewWithTag:IMG_TAG + i];
                 imgVC.image = [UIImage imageNamed:imageName];
-                imgVC.frame = CGRectMake(10 + (i%3) *(SCREEN_WIDTH - 20)/3.0, contentY + 10 + (THREE_PIC_OR_MORE_NEED_PICHEIGHT + 5) * (i/3), (SCREEN_WIDTH - 20 - 15)/3.0, THREE_PIC_OR_MORE_NEED_PICHEIGHT);
+                imgVC.frame = CGRectMake(10 + (i%3) *(SCREEN_WIDTH - 20)/3.0, Mudel_Y + 10 + (THREE_PIC_OR_MORE_NEED_PICHEIGHT + 5) * (i/3), (SCREEN_WIDTH - 20 - 15)/3.0, THREE_PIC_OR_MORE_NEED_PICHEIGHT);
             }
         }
     }

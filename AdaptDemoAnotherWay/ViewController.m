@@ -18,7 +18,9 @@
     NSArray * _titleArray;
     NSArray * _contentArray;
     NSArray * _imageNameArray;
+//    记录放大前的imageView的frame
     CGRect oldFrame;
+//    记录放大前的image对象。将来肯定是要联网的，那么，如果后台给力的话，这里记录的应该是bigPicUrl。
     UIImage * oldImage;
 }
 
@@ -94,7 +96,7 @@
     return cell.frame.size.height+15;
 }
 
--(void)clickFroMoreImageView:(UIImageView *)imageView andImage:(UIImage *)image{
+-(void)clickForImageView:(UIImageView *)imageView andBigerImage:(UIImage *)image{
     
     UIView * backGroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     backGroundView.backgroundColor = [UIColor blackColor];
