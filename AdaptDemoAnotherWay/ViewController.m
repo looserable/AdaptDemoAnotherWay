@@ -123,7 +123,9 @@
 }
 
 - (void)hideImage:(UITapGestureRecognizer *)tap{
+    
     UIView * backGroundView = tap.view;
+    
     UIImageView * imageView = (UIImageView *)[backGroundView viewWithTag:1];
     [UIView animateWithDuration:0.3 animations:^{
         imageView.frame = oldFrame;
@@ -135,7 +137,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    NSLog(@"haha");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
